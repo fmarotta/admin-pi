@@ -6,6 +6,7 @@ to install the OS.
 
 ###### Index of the directory
 
+```
 card_setup
 |
 |--card_setup.sh		Script to automatically set up the SD card with 
@@ -15,6 +16,7 @@ card_setup
 |--raspi.fdisk			Partition table for a 16 GiB SunDisk card.
 |
 `--raspi.fstab			Filesystem table for this setup.
+```
 
 ## Why a Raspberry Pi?
 
@@ -29,7 +31,8 @@ call "raspi" -- which is not the plural of raspus.
 
 We wanted a lightweight, yet functional operating system, so, as we did 
 not even need a GUI, we opted for [Arch Linux 
-ARM](https://archlinuxarm.org), a port of Arch Linux for ARM computers.
+ARM](https://archlinuxarm.org), a port of Arch Linux for ARM computers. 
+Raspbian, the default OS, would have been just a waste.
 
 ## Which SD card to use?
 
@@ -60,24 +63,26 @@ we take it.
 We are adopting the following scheme, which has extensively proved 
 worthy over the time:
 
-* /boot			100 MiB		vfat
-* /				8 GiB		ext4
-* /usr/local	1 GiB		ext4
-* /var			3 GiB		ext4
-* /home			1.8 GiB		ext4
-* swap			1 GiB		swap
+| Partition		| Size			| Filesystem type	|
+|---------------|--------------:|:-----------------:|
+| `/boot`		| 100 MiB		| vfat				|
+| `/`			| 8 GiB			| ext4				|
+| `/usr/local`	| 1 GiB			| ext4				|
+| `/var`		| 3 GiB			| ext4				|
+| `/home`		| 1.8 GiB		| ext4				|
+| `swap`		| 1 GiB			| swap				|
 
-/boot *must* be in the first partition of the disk, separated from / and 
-all the rest, in order for the raspberry to work; /var contains log 
-files and caches that can take up a lot of space, thus we think it is 
-safer to isolate this directory in its own partition; /usr/local is 
-often used for locally installed programs, while /home for the users' 
+`/boot` *must* be in the first partition of the disk, separated from `/` 
+and all the rest, in order for the raspberry to work; `/var` contains 
+log files and caches that can take up a lot of space, thus we think it 
+is safer to isolate this directory in its own partition; `/usr/local` is 
+often used for locally installed programs, while `/home` for the users' 
 files (such files will be protected if we wanted install another OS). 
 Finally, there is a swap partition, i.e. a space in the SD card which 
 can be used as a kind of RAM when the computer experiences a bad time.
-Everything is formatted with ext4 filesystem, except /boot, which *must* 
-be FAT32, and swap, which has its own kind. To create and format the 
-partitions we used fdisk, mkfs, mkswap and swapon as described 
+Everything is formatted with ext4 filesystem, except `/boot`, which 
+*must* be FAT32, and swap, which has its own kind. To create and format 
+the partitions we used fdisk, mkfs, mkswap and swapon as described 
 [here](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3), 
 [here](https://wiki.archlinux.org/index.php/Partitioning) and 
 [here](https://wiki.archlinux.org/index.php/Swap).
@@ -89,7 +94,7 @@ files and moved them in their respective partition, following [this
 guide](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3). 
 We also had to make a few changes to the `/etc/fstab` which came with 
 the default installation, otherwise our beautiful partitions would not 
-have even been mounted. We provide here the `fstab` we used, but read 
+have even been mounted. We provide here the fstab we used, but read 
 [this](https://wiki.archlinux.org/index.php/fstab) if you want to know 
 more.
 
@@ -102,6 +107,26 @@ it was not written with compatibility in mind... However, if you read it
 you could at least get an idea of the passages that are involved and 
 then adapt the commands to your needs. Any comment on the script will be 
 appreciated.
+
+## Static IP
+
+We can now insert the SD inside the Pi, plug the power supply and log in 
+using the following credentials:
+
+user:		alarm  
+password:	alarm
+
+Once logged in, you can become root with the `su` command, entering the 
+password "root". As we do not have monitor and keyboard to attach the 
+Raspberry to, we will be able to log in only through ssh. We therefore 
+open the administration page of our router, an ASUS DSL-N12E, and look 
+for the LAN IP of the device, expecting something like 192.168.1.xxx. 
+However, it is convenient to configure a DHCP static IP so that when we 
+log in from the LAN the IP will always be the same. To do so, we went to 
+the `Network->LAN->DHCP static IP` section in the router administration 
+page. Next, we can add a line to the `/etc/hosts` of our laptops, so 
+that "raspi" will be associated to the static IP we chose; google this 
+file if you want to know how it works.
 
 ## Uncorking
 
