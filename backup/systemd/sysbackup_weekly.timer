@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for weekly sysbackup
+
+[Timer]
+OnCalendar=Mon *-*-* 04:15:00
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily system and databases backup
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sysbackup -l -p 7 -s / -d /mnt/raspiBackup/daily --db
+
