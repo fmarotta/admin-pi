@@ -12,13 +12,13 @@ through bluetooth. On Linux, the package bluez manages bluetooth.
 
 ###### References
 
-https://archlinuxarm.org/forum/viewtopic.php?f=65&t=11413 (main)
-https://wiki.archlinux.org/index.php/bluetooth
-https://wiki.archlinux.org/index.php/Bluetooth_headset
-https://wiki.archlinux.org/index.php/PulseAudio
-https://wiki.archlinux.org/index.php/PulseAudio/Troubleshooting
-https://wiki.archlinux.org/index.php/PulseAudio/Examples
-http://www.lightofdawn.org/blog/?viewDetailed=00031
+https://archlinuxarm.org/forum/viewtopic.php?f=65&t=11413 (main)  
+https://wiki.archlinux.org/index.php/bluetooth  
+https://wiki.archlinux.org/index.php/Bluetooth_headset  
+https://wiki.archlinux.org/index.php/PulseAudio  
+https://wiki.archlinux.org/index.php/PulseAudio/Troubleshooting  
+https://wiki.archlinux.org/index.php/PulseAudio/Examples  
+http://www.lightofdawn.org/blog/?viewDetailed=00031  
 
 ## Installation
 
@@ -97,3 +97,18 @@ the card of your device and give the command `pacmd set-card-profile
 ### Set default output source
 
 You can optionally set the default output source, but we did not do it.
+
+## Common problems
+
+### Speaker not autoconnecting
+
+If after some time the speaker misteriously fails to autoconnect, but if 
+you connect it manually with `bluetoothctl`, it may be that the kernel 
+module `btusb` is not properly loaded. To find it out, try to `# 
+modprobe btusb`: if the command fails, this is the case; you may also 
+find out that modprobe looks in a directory which does not exist. After 
+a kernel upgrade, modprobe still looks in the module directory of the 
+previous kernel, so you have to shutdown the device and restart it. 
+Alternatively, you may want to try tools such as ksplice or kexec. See 
+for instance [this 
+post](https://unix.stackexchange.com/questions/104540/is-it-necessary-to-reboot-after-a-kernel-upgrade-via-apt).
