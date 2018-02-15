@@ -139,3 +139,17 @@ Another problem might be that pulseaudio exits after some time; to avoid
 this, edit 
 `~/.config/systemd/user/default.target.wants/pulseaudio.service` 
 setting the option `Restart=always` instead of `Restart=on-failure`.
+
+### Journal error: hciconfig is not found
+
+If you get the following error looking at the system log:
+
+`failed to execute '/usr/bin/hciconfig' '/usr/bin/hciconfig hci0:11 up': 
+No such file or directory`
+
+it is because hciconfig is deprecated by bluez; now we use 
+`bluetoothctl` as a replacement, therefore everything works fine, except 
+that somehow someone wants to run hciconfig. A quick workaround to hide 
+this message is to make a script and link it to `/usr/bin/hciconfig`, 
+where you echo a message to the system journal saying what you are 
+doing. The script is provided as hciconfig.sh in this directory.
