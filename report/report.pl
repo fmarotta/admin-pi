@@ -11,7 +11,8 @@ my $top = `top -b -n1 | head -n 8`;
 my $df_header = `df -TH | head -n 1`;
 my $df_footer = `df -TH --total | tail -n 1`;
 my $df_body = `df -TH | sed 1d | sort -k6,6n -k4,4h`;
-my $logs = `find /home/$ENV{USER} -name "*.log" | xargs ls -l | sed 's#/home/$ENV{USER}#~#'`;
+my $system_logs = `sudo journalctl -p 3 -xb | cat`;
+my $logs = `find /home/$ENV{USER} -name "*.log" | xargs ls -lh | sed 's#/home/$ENV{USER}#~#'`;
 my $ps = `ps ux`;
 
 chomp $df_header;
@@ -55,6 +56,9 @@ $ps
 
 log files:
 $logs
+
+system log:
+$system_logs
 END
 
 exit
