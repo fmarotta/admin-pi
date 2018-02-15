@@ -49,6 +49,11 @@ default-character-set = utf8mb4
 Finally, populate the time zone tables with the command `$ 
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql`
 
+We turn off binary logging, since we do not need it, by commenting 
+`#log-bin=mysql-bin` and `#binlog_format=mixed` in `/etc/mysql/my.cnf`. 
+Also, to purge existing binary logs, run `# mysql -u root -p"password" 
+-e "PURGE BINARY LOGS TO 'mysql-bin.0000xx';"`.
+
 ## phpMyAdmin
 
 phpMyAdmin is a front end for mariadb. Install *phpmyadmin* and follow 
