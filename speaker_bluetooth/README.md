@@ -100,7 +100,7 @@ You can optionally set the default output source, but we did not do it.
 
 ## Common problems
 
-### Speaker not autoconnecting
+### Speaker not autoconnecting (I)
 
 If after some time the speaker misteriously fails to autoconnect, but if 
 you connect it manually with `bluetoothctl`, it may be that the kernel 
@@ -108,7 +108,29 @@ module `btusb` is not properly loaded. To find it out, try to `#
 modprobe btusb`: if the command fails, this is the case; you may also 
 find out that modprobe looks in a directory which does not exist. After 
 a kernel upgrade, modprobe still looks in the module directory of the 
-previous kernel, so you have to shutdown the device and restart it. 
-Alternatively, you may want to try tools such as ksplice or kexec. See 
-for instance [this 
+previous kernel, so you have to shutdown the device and restart it, then 
+modprobe btusb. Alternatively, you may want to try tools such as ksplice 
+or kexec. See for instance [this 
 post](https://unix.stackexchange.com/questions/104540/is-it-necessary-to-reboot-after-a-kernel-upgrade-via-apt).
+
+### Speaker not autoconnecting (II)
+
+If you run a headless device (i.e. without a GUI), this section may 
+address your issue. Pulseaudio is configured 'to give access to the 
+currenly "active" user' 
+([cit](https://wiki.archlinux.org/index.php/PulseAudio)), but in a 
+headless system there is no such user. One option is to run pulseaudio 
+as a system-wide instance, but this has security issues, so we will 
+instead use another trick. The problem at its root is that pulseaudio is 
+not running when we power on the speaker, so we need to make pulseaudio 
+permanently active. To do so, we will use systemd's lingering feature, 
+which allows to start user units without requiring the user to be logged 
+in.
+
+Run
+
+```
+# loginctl enable-linger <user>
+$ systemctl --user enable pulseaudio.socket
+$ systemctl --user enable pulseaudio.service
+```
