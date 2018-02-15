@@ -20,6 +20,19 @@ Edit `/etc/exports` so that it will look somewhat like this:
 
 Then, start and enable nfs-server.service.
 
+### Automatic mount --bind
+
+You can also automatically bind your /mnt/music filesystem to 
+/srv/nfs/music, adding the following entry to your `/etc/fstab`:
+
+```
+# Bind for nfs
+/mnt/music	/srv/nfs/music	none	defaults,bind,x-systemd.requires-mounts-for=/mnt/music	0	0
+```
+
+Remember to change the paths to what best suits your situation. For an 
+explaination of the options, take a look at `systemd.mount` man page.
+
 ## Client
 
 Install nfs and simply mount the file system. You can add an entry to 
