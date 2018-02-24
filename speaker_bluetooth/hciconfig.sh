@@ -11,4 +11,4 @@
 # time/will to further investigate the matter.
 
 systemd-cat -p 5 echo "NOTICE: hciconfig has been deprecated. This is a \
-	workaround script by fmarotta that warns you that something is wrong."
+workaround script by fmarotta that warns you that something is wrong."
