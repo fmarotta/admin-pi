@@ -136,9 +136,7 @@ $ systemctl --user enable pulseaudio.service
 ```
 
 Another problem might be that pulseaudio exits after some time; to avoid 
-this, edit 
-`~/.config/systemd/user/default.target.wants/pulseaudio.service` 
-setting the option `Restart=always` instead of `Restart=on-failure`.
+this, edit `/etc/pulse/daemon.conf` setting `exit-idle-time = -1`.
 
 ### Journal error: hciconfig is not found
 
