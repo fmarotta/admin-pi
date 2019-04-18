@@ -1,0 +1,6 @@
+[Unit]
+Description=Renewal of Let's Encrypt certificates
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/certbot renew --quiet --agree-tos --deploy-hook "systemctl reload httpd.service"
