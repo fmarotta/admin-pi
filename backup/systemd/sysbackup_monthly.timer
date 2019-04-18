@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for monthly sysbackup
+
+[Timer]
+OnCalendar=*-*-1 04:30:00
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target
+

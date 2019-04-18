@@ -1,0 +1,7 @@
+[Unit]
+Description=Monthly system and databases backup
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sysbackup -l -c -p 6 -s / -d /mnt/raspiBackup/monthly --db
+

@@ -1,0 +1,7 @@
+[Unit]
+Description=Weekly system and databases backup
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sysbackup -l -c -p 4 -s / -d /mnt/raspiBackup/weekly --db
+
